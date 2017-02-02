@@ -19,12 +19,12 @@
   </style>
 </head>
   <body>
-    <% if(!defined?(@name) )%>
+    <% if(!defined?(@user))%>
       <script>
         window.location.href = "./login" ;
       </script>
     <% end %>
-    
+
     <%= yield %>
 
 </body>
