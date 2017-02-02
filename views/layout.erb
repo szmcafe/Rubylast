@@ -22,13 +22,13 @@
   </style>
 </head>
   <body>
-    <%= yield %>
-
-    <% if !defined?(session[:userID]) && @title != "loginpage" %>
+    <% if (!defined?(session[:userID]) || session[:userID] == "") &&
+          @title != "loginpage" || @title =="logout" %>
       <script>
          window.location.href = "./login";
       </script>
     <% end %>
+    <%= yield %>
 
 </body>
 </html>
