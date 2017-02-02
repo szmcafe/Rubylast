@@ -1,13 +1,11 @@
 <div class="col-xs-3 col-md-offset-1 top_adjust">
-  <div class="panel panel-default">
-  <table class="table table-bordered h1">
+  <div class="panel panel-default ">
+  <table style="width:100%;height:120%;" class="table-striped h1">
     <tr>
-      <td>userID</td>
-      <td><%= session[:userID] %></td>
+      <th class="text-right h5">ID</th><th class="text-center"><%= session[:userID] %></th>
     </tr>
     <tr>
-      <td>userName</td>
-      <td><%= session[:userName]%></td>
+      <th class="text-right h5">Name</th><th class="text-center"><%= session[:userName] %></th>
     </tr>
   </table>
   </div>
@@ -18,7 +16,46 @@
 
 </div>
 
-<div class="col-xs-8 h1">
-  
-  <!-- 上に表示するスクリプト -->
+<div class="col-xs-7 top_little ">
+  <div class="col-xs-11 col-md-offset-1">
+        <textarea id="text" class="form-control" rows =6></textarea>
+        <div class="col-md-offset-11">
+          <button class="btn btn-default btn-sm" id="tweet" >投稿</button>
+        </div><br>
+      <div id="tweetlist" class="col-xs-12">
+        <% @members[:tweet].order(Sequel.desc(:tweetID)).each do |tweet|%>
+            <%  t = @members[:user].where(userID: tweet[:tweetuserID]).first%>
+          <div class="panel panel-default col-xs-12 ">
+          <h4><%= t[:userName] %></h4>
+            <div class="panel panel-default col-xs-12 ">
+              <h3><%= tweet[:tweetText]%></h3>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <!-- 上にtweet内容を表示するscript -->
+  </div>
 </div>
+
+<script>
+  $(function(){
+    $('#tweet').on("click",function(){
+      $.ajax({
+        type: "POST",
+        url: "/tweet",
+        data:{
+          "tweet": $('#text').val(),
+          "userID": "<%= session[:userID]%>",
+          "userName": "<%= session[:userName]%>"
+        }
+      });
+
+    $('#tweetlist').prepend("<div class='panel panel-default col-xs-12'>"+
+    "<h4>"+"<%= session[:userName] %>"+"</h4>"+
+      "<div class='panel panel-default col-xs-12 '>"+
+        "<h3>"+$('#text').val()+"</h3>"+
+      "</div>"+
+    "</div>");
+    });
+  });
+</script>

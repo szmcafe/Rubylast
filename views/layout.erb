@@ -10,6 +10,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
   <style>
+  table{
+    table-layout: fixed;
+    word-break: break-word;
+  }
   .row-eq-height{
   display: -webkit-box;
   display: -webkit-flex;
@@ -19,11 +23,18 @@
   .top_adjust{
     padding-top: 10%;
   }
+  .top_little{
+    padding-top: 3%;
+  }
+  textarea{
+    resize: none;
+  }
   </style>
 </head>
   <body>
-    <% if (!defined?(session[:userID]) || session[:userID] == "") &&
-          @title != "loginpage" || @title =="logout" %>
+    <% if (!defined?(session[:userName]) || session[:userName] == "")&&
+          (!defined?(session[:userID]) || session[:userID] == "") &&
+          (@title != "loginpage" || @title =="logout") && @title != "registration" %>
       <script>
          window.location.href = "./login";
       </script>
