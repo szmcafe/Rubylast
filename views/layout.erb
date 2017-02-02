@@ -16,16 +16,19 @@
   display: -ms-flexbox;
   display: flex;
   }
+  .top_adjust{
+    padding-top: 10%;
+  }
   </style>
 </head>
   <body>
-    <% if(!defined?(@user))%>
+    <%= yield %>
+
+    <% if !defined?(session[:userID]) && @title != "loginpage" %>
       <script>
-        window.location.href = "./login" ;
+         window.location.href = "./login";
       </script>
     <% end %>
-
-    <%= yield %>
 
 </body>
 </html>

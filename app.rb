@@ -1,6 +1,12 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'sequel'
+
+use Rack::Session::Cookie,
+  :expire_after => 3600,
+  :secret => 'change'
+
+
 db_path = File.dirname(__FILE__). + "db.db"
 DB = Sequel.sqlite(db_path)
 
@@ -11,13 +17,12 @@ get '/' do
 end
 
 post '/' do
-  @user['name'] = params[:username]
-  @user['userID'] = params[:userID]
+  session[:userID] = params[:userID]
+  session[:userName] = params[:username]
   erb :index
 end
 
 get '/login' do
-    @user = Hash.new()
     @title = "loginpage"
     erb :login
 end
