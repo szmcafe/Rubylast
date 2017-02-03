@@ -24,12 +24,11 @@ post '/' do
       begin
         name = DB[:user].where(userID: params[:userID]).first
       if name[:userID] == params[:userID] then
-        session[:userID] = params[:userID]
-        session[:userName] = name[:userName]
+        session[:userID] = CGI.escapeHTML(params[:userID])
+        session[:userName] = CGI.escapeHTML(params[:userName])
         erb :index
       end
       rescue
-
         redirect back
       end
 
@@ -50,7 +49,8 @@ post '/logout' do
 end
 post '/tweet' do
   unless params[:tweet].empty?
-    DB[:tweet].insert(nil,params[:userID],params[:tweet])
+    DB[:tweet].insert(nil,params[:userID],CGI.escapeHTML(params[:tweet]))
+
   end
 end
 
@@ -60,10 +60,10 @@ get '/registration' do
 end
 post '/newmember' do
   begin
-   unless params[:userID].empty? || params[:userName].empty?
-       DB[:user].insert(params[:userID],params[:userName],"nil")
-       session[:userID] = params[:userID]
-       session[:userName] = params[:userName]
+   unless params[:userID].empty? && params[:userName].empty?
+       session[:userID] = CGI.escapeHTML(params[:userID])
+       session[:userName] = CGI.escapeHTML(params[:userName])
+       DB[:user].insert(session[:userID],session[:userName],"nil")
        redirect to('/')
    else
      redirect back
