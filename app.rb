@@ -24,8 +24,8 @@ post '/' do
       begin
         name = DB[:user].where(userID: params[:userID]).first
       if name[:userID] == params[:userID] then
-        session[:userID] = CGI.escapeHTML(params[:userID])
-        session[:userName] = CGI.escapeHTML(params[:userName])
+        session[:userID] = params[:userID]
+        session[:userName] = name[:userName]
         erb :index
       end
       rescue
