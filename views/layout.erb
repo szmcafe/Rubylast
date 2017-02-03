@@ -32,7 +32,7 @@
   </style>
 </head>
   <body>
-    <% if (!defined?(session[:userName]) || session[:userName] == "")&&
+    <% if (!defined?(session[:userName]) || session[:userName] == "") &&
           (!defined?(session[:userID]) || session[:userID] == "") &&
           (@title != "loginpage" || @title =="logout") && @title != "registration" %>
       <script>
@@ -40,6 +40,10 @@
       </script>
     <% end %>
     <%= yield %>
-
+    <footer class="col-xs-12 text-right footer">
+    <div class="container">
+      <p class="text-muted">とても良い価値のある講義でした。</p>
+    </div>
+  </footer>
 </body>
 </html>

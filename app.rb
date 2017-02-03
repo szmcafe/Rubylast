@@ -23,9 +23,11 @@ post '/' do
       @title = "rootpage"
       begin
         name = DB[:user].where(userID: params[:userID]).first
+      if name[:userID] == params[:userID] then
         session[:userID] = params[:userID]
         session[:userName] = name[:userName]
         erb :index
+      end
       rescue
         redirect back
       end
@@ -46,8 +48,9 @@ post '/logout' do
   erb :index
 end
 post '/tweet' do
-  DB[:tweet].insert(nil,params[:userID],params[:tweet])
-
+  unless params[:tweet].empty?
+    DB[:tweet].insert(nil,params[:userID],params[:tweet])
+  end
 end
 
 get '/registration' do
@@ -60,7 +63,7 @@ post '/newmember' do
        DB[:user].insert(params[:userID],params[:userName],"nil")
        session[:userID] = params[:userID]
        session[:userName] = params[:userName]
-       redirect to('/login')
+       redirect to('/')
    else
      redirect back
    end
