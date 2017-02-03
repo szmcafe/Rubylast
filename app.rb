@@ -29,6 +29,7 @@ post '/' do
         erb :index
       end
       rescue
+
         redirect back
       end
 
@@ -59,7 +60,7 @@ get '/registration' do
 end
 post '/newmember' do
   begin
-   unless params[:userID].empty? && params[:userName].empty?
+   unless params[:userID].empty? || params[:userName].empty?
        DB[:user].insert(params[:userID],params[:userName],"nil")
        session[:userID] = params[:userID]
        session[:userName] = params[:userName]
